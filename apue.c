@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <stdlib.h>
+#include <string.h>
 
 #if 0
 int ls(char *dirname)
@@ -59,18 +60,18 @@ int get_pid(void)
 }
 
 
-int err(void)
-{
-	/* 不同的errno对应不同的错误信息 */
-	int i;
-	char *err;
-	for (i=0; i<48; i++)
-	{
-		err = (char *)strerror(i);
-		printf("%d: %s\n", i, err);
-	}
-	return 0;
-}
+// int err(void)
+// {
+// 	/* 不同的errno对应不同的错误信息 */
+// 	int i;
+// 	char *err;
+// 	for (i=0; i<48; i++)
+// 	{
+// 		err = (char *)strerror(i);
+// 		printf("%d: %s\n", i, err);
+// 	}
+// 	return 0;
+// }
 
 
 // int user_identify(void)
@@ -78,18 +79,95 @@ int err(void)
 // 	printf("uid = %d, gid = %d\n", get_uid(), get_gid());
 // 	return 0;
 // }
+// 
+
+int toStringHex(unsigned char c)
+{
+	/* 
+	 * 输入0-255数值，输出十六进制字符串
+	 */
+	if ((c >> 4) < 0x0a)
+	{
+		printf("0x%c\n", ((c >> 4) + '0'));
+	}
+	else
+		printf("%c\n", ((c >> 4) + 'A' - 0x0a));
+
+	if ((c & 0x0f) < 0x0a)
+	{
+		printf("0x%c\n", ((c & 0x0f) + '0'));
+	}
+	else
+		printf("%c\n", ((c & 0x0f) + 'A' - 0x0a));
+
+	return 0;
+}
 
 
+int print_word(unsigned int c)
+{
+	toStringHex((unsigned char) (c >> 8));
+	toStringHex((unsigned char) (c & 0xff));
+}
+
+
+char *decToBin(unsigned int val)
+{
+	/*
+	 * 输入十进制数，输出二进制字符串
+	 */
+	 int i, x, y, len;
+	 char t[32] = {0}, r[32] = {0};
+	 char *res = (char *)malloc(32 * sizeof(char));
+	 i = 0;
+	 x = val;
+	 y = val;
+
+	 while (x != 0)
+	 {
+	 	t[i++] = x % 2 + '0';
+	 	x = (int)(x / 2);
+	 }
+	len = strlen(t);
+	for (i=len-1; i>=0; i--)
+		r[len-1-i] = t[i];
+	 strcpy(res, r);
+	 return res;
+}
+
+
+char *decToHex(unsigned int val)
+{
+	/*
+	 * 输入十进制数，输出十六进制字符串
+	 */
+	 int i, x, y, len;
+	 char t[32] = {0}, r[32] = {0};
+	 char *res = (char *)malloc(32 * sizeof(char));
+	 i = 0;
+	 x = val;
+	 y = val;
+
+	 while (x != 0)
+	 {
+	 	if (x % 16 <10)
+	 		t[i++] = x % 16 + '0';
+	 	else
+	 		t[i++] = x % 16 + 'a' - 10;
+	 	x = (int)(x / 16);
+	 }
+	len = strlen(t);
+	for (i=len-1; i>=0; i--)
+		r[len-1-i] = t[i];
+	 strcpy(res, r);
+	 return res;
+}
+
+ 
 int main(void)
 {
-	extern int errno;
-	int fd;
-	if( (fd = open("test.txt", 'w')) == -1 ) {
-        printf("Open failure, errno is %d :%s \n", errno,strerror(errno));
-    } else {
-        printf("Open successfully!\n");
-    }
-
-    err();
+	char * str;
+    str = decToHex(5678);
+    printf("str = %s\n", str);
 	getc(stdin);
 }
