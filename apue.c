@@ -164,10 +164,23 @@ char *decToHex(unsigned int val)
 }
 
  
+int enum_test(void)
+{
+	enum en { RED=66, BLUE, GREEN };
+	enum en e1;
+	e1 = BLUE;
+	printf("%d\n", e1);
+}
+ 
 int main(void)
 {
+	int *i;
+	char a = 100L;
 	char * str;
     str = decToHex(5678);
     printf("str = %s\n", str);
+    str = "gujinxin";
+    printf("str = %s\n", str);
+    printf("%d\n", *i);
 	getc(stdin);
 }
