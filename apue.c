@@ -171,16 +171,46 @@ int enum_test(void)
 	e1 = BLUE;
 	printf("%d\n", e1);
 }
- 
+
+
+int struct_test(void)
+{
+	typedef struct person
+	{
+		int age;
+	}person, *p_person;
+
+	person p;
+	p.age = 33;
+
+	person person_array[64];
+	person_array[0] = p;
+	person_array[0].age = 66;
+	printf("%d\n", person_array[0].age);
+}
+
+
+struct test
+{
+	int age;
+};
+
+int test_fun(struct test *st)
+{
+	st->age = 33;
+	printf("in test_fun age = %d\n", st->age);
+	return 0;
+}
+
+
 int main(void)
 {
-	int *i;
-	char a = 100L;
-	char * str;
-    str = decToHex(5678);
-    printf("str = %s\n", str);
-    str = "gujinxin";
-    printf("str = %s\n", str);
-    printf("%d\n", *i);
+	static int i;
+	i = 0;
+	printf("%d\n", i);
+	struct test s;
+	s.age = 66;
+	test_fun(&s);
+	printf("%d\n", s.age);
 	getc(stdin);
 }
