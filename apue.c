@@ -203,14 +203,100 @@ int test_fun(struct test *st)
 }
 
 
+
+int copy_n(char dst[], char src[], int n)
+{
+	/* 把一个字符串从src复制到dst中去，和strncpy功能相同 */
+	int i = 0, j, k;
+	char temp;
+	for (i=0; i<n; i++)
+	{
+		if (src[i] == '\0')
+		{
+			printf("%d\n", n-i);
+			k = n-i;
+			for (j=0; j<k; j++)
+			{
+				dst[i] = '\0';
+				printf("%d: %d\n", i, dst[i]);
+				i++;
+			}
+			goto end;
+		}
+		temp = src[i];
+		dst[i] = temp;
+	}
+
+end:
+	printf("dst = %s\n", dst);
+	printf("%d\n", strlen(dst));
+	return 0;
+}
+
+
+int deblank(char *str)
+{
+	/* 从一个字符串中去除多余的空格，如果一个地方有一个或多个空格，则替换成一个空格 */
+	int i, j, len, flag;
+	j = 0;
+	flag = 0;
+	len = strlen(str);
+	printf("%d\n", len);
+	char res[len];
+	memset(res, 0, len);
+	for (i=0; i<len; i++)
+	{
+		if ((flag == 1) && (str[i] != ' '))
+		{
+			flag = 0;
+		}
+
+		if (flag == 0)
+		{
+			res[j++] = str[i];
+			printf("str[%d] = %c, flag = %d\n", i, str[i], flag);
+			printf("res[%d] = %c\n", i, res[i]);
+		}
+
+		if (str[i] == ' ')
+		{
+			flag = 1;
+		}
+	}
+	printf("%s, len = %d\n", res, strlen(res));
+	return 0;
+}
+
+
+int de_allblank(char *str)
+{
+	/* 从一个字符串中去除所有的空格 */
+	int i, j, len;
+	j = 0;
+	len = strlen(str);
+	printf("%d\n", len);
+	char res[len];
+	memset(res, 0, len);
+	for (i=0; i<len; i++)
+	{
+		if (str[i] != ' ') //不是空格
+		{
+			res[j++] = str[i];
+			printf("str[%d] = %c\n", i, str[i]);
+			printf("res[%d] = %c\n", i, res[i]);
+		}
+		else //是空格，则跳过
+			continue;
+
+	}
+	printf("%s, len = %d\n", res, strlen(res));
+	return 0;
+}
+
 int main(void)
 {
-	static int i;
-	i = 0;
-	printf("%d\n", i);
-	struct test s;
-	s.age = 66;
-	test_fun(&s);
-	printf("%d\n", s.age);
+	de_allblank("gu  jggg    g xxx         ");
+	printf("\n");
+	deblank("gu  jggg    g xxx         ");
 	getc(stdin);
 }
