@@ -293,10 +293,31 @@ int de_allblank(char *str)
 	return 0;
 }
 
+
+int count_one_bits(unsigned int val)
+{
+	int ones;
+
+	for (ones=0; val!=0; val >>= 1)
+	{
+		if (val % 2 == 1)
+		{
+			ones += 1;
+		}
+	}
+
+	printf("%d\n", ones);
+
+	return ones;
+}
+
+
 int main(void)
 {
-	de_allblank("gu  jggg    g xxx         ");
-	printf("\n");
+	// de_allblank("gu  jggg    g xxx         ");
+	// printf("\n");
 	deblank("gu  jggg    g xxx         ");
+	count_one_bits(66);
 	getc(stdin);
 }
+
