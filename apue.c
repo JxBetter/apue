@@ -312,12 +312,50 @@ int count_one_bits(unsigned int val)
 }
 
 
+int set_one(unsigned int data, unsigned int index)
+{
+	/* 某位写1 */
+	data |= (1<<index);
+	return 0;
+}
+
+
+int set_zero(unsigned int data, unsigned int index)
+{
+	/* 某位写0 */
+	data &= ~(1<<index);
+	return 0;
+}
+
+
+int if_one(unsigned int data, unsigned int index)
+{
+	/* 判断某位是否为1 */
+	data >>= index;
+	data &= (0x01);
+	return (data == 1);
+}
+
+
+int if_zero(unsigned int data, unsigned int index)
+{
+	/* 判断某位是否为0 */
+	data >>= index;
+	data &= (0x01);
+	return (data == 0);
+}
+
+
 int main(void)
 {
 	// de_allblank("gu  jggg    g xxx         ");
 	// printf("\n");
-	deblank("gu  jggg    g xxx         ");
-	count_one_bits(66);
+	// deblank("gu  jggg    g xxx         ");
+	// count_one_bits(66);
+	set_one(0xf0, 0);
+	set_zero(0xff, 0);
+	if_one(0xf0, 0);
+	if_zero(0xf0, 0);
 	getc(stdin);
 }
 
