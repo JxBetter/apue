@@ -213,12 +213,10 @@ int copy_n(char dst[], char src[], int n)
 	{
 		if (src[i] == '\0')
 		{
-			printf("%d\n", n-i);
 			k = n-i;
 			for (j=0; j<k; j++)
 			{
 				dst[i] = '\0';
-				printf("%d: %d\n", i, dst[i]);
 				i++;
 			}
 			goto end;
@@ -228,8 +226,8 @@ int copy_n(char dst[], char src[], int n)
 	}
 
 end:
-	printf("dst = %s\n", dst);
-	printf("%d\n", strlen(dst));
+	// printf("dst = %s\n", dst);
+	// printf("%d\n", strlen(dst));
 	return 0;
 }
 
@@ -300,7 +298,7 @@ int count_one_bits(unsigned int val)
 
 	for (ones=0; val!=0; val >>= 1)
 	{
-		if (val % 2 == 1)
+		if (val & 0x01 == 1)
 		{
 			ones += 1;
 		}
@@ -346,16 +344,33 @@ int if_zero(unsigned int data, unsigned int index)
 }
 
 
-int main(void)
-{
-	// de_allblank("gu  jggg    g xxx         ");
-	// printf("\n");
-	// deblank("gu  jggg    g xxx         ");
-	// count_one_bits(66);
-	set_one(0xf0, 0);
-	set_zero(0xff, 0);
-	if_one(0xf0, 0);
-	if_zero(0xf0, 0);
-	getc(stdin);
+int toLowerCase(char buff[], char *str) {
+	/* 將str中的大寫字母轉成小寫字母并存在buff中 */
+	printf("str = %s\n", str);
+	int i = 0;
+	char s[1000] = {0};
+    while (*str != '\0')
+    {
+    	if ('Z' >= *str && *str >= 'A')
+    	{
+    		s[i++] = (*str++ - 'A' + 'a');
+    	}
+    	else
+    	{
+    		s[i++] = *str++;
+    	}
+    }
+    printf("s = %s\n", s);
+    strcpy(buff, s);
+    return 0;
 }
 
+
+int main(void)
+{
+	char s[1000];
+	char *c = "ABCDFKNDHHHHHHHHHHHH";
+	toLowerCase(s, c);
+	printf("s = %s\n", s);
+	getc(stdin);
+}
