@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #if 0
 int ls(char *dirname)
@@ -344,7 +345,7 @@ int if_zero(unsigned int data, unsigned int index)
 }
 
 
-int toLowerCase(char buff[], char *str) {
+int toLowerCase(char *buff, char *str) {
 	/* 將str中的大寫字母轉成小寫字母并存在buff中 */
 	printf("str = %s\n", str);
 	int i = 0;
@@ -360,17 +361,33 @@ int toLowerCase(char buff[], char *str) {
     		s[i++] = *str++;
     	}
     }
-    printf("s = %s\n", s);
     strcpy(buff, s);
     return 0;
 }
 
 
+unsigned int reverse_bits(unsigned int value)
+{
+	/* 把value的二进制位镜像，value的第0位，镜像到第31位.. */
+	int i, j;
+	unsigned int res = 0;
+
+	for (i=0; i<32; i++)
+	{
+		if ((value >> i) & 0x01)
+		{
+			j = 31 - i;
+			res |= (1 << j);
+		}
+	}
+	return res;
+}
+
+
 int main(void)
 {
-	char s[1000];
-	char *c = "ABCDFKNDHHHHHHHHHHHH";
-	toLowerCase(s, c);
-	printf("s = %s\n", s);
+	unsigned int r;
+	r = reverse_bits(25);
+	printf("0x%x\n", r);
 	getc(stdin);
 }
