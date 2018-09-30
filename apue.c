@@ -372,11 +372,11 @@ unsigned int reverse_bits(unsigned int value)
 	int i, j;
 	unsigned int res = 0;
 
-	for (i=0; i<32; i++)
+	for (i=0; i<sizeof(unsigned int) * 8; i++)
 	{
 		if ((value >> i) & 0x01)
 		{
-			j = 31 - i;
+			j = sizeof(unsigned int) * 8 - 1 - i;
 			res |= (1 << j);
 		}
 	}
@@ -384,10 +384,26 @@ unsigned int reverse_bits(unsigned int value)
 }
 
 
+int point_test(void)
+{
+	/*
+	 * 定义一个整形变量x，x一共有32位，赋值为0x12345678
+	 * 定义一个char型指针变量p，把变量x的地址赋值给p
+	 * 因为p的类型是char *，所以只能存储一个字节
+	 */
+	int x = 0x12345678;
+	char *p;
+	p = (char *)&x;
+	printf("0x%x\n", *p);
+	return 0;
+}
+
+
 int main(void)
 {
-	unsigned int r;
-	r = reverse_bits(25);
-	printf("0x%x\n", r);
+	int x = 0x12345678;
+	char *p;
+	p = (char *)&x;
+	printf("0x%x\n", *p);
 	getc(stdin);
 }
